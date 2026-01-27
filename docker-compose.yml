@@ -15,8 +15,14 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      NODE_ENV: production
+      NODE_ENV: ${NODE_ENV}
     volumes:
+      - ./config:/opt/app/config
+      - ./src:/opt/app/src
+      - ./package.json:/opt/package.json
+      - ./package-lock.json:/opt/package-lock.json
+
+      - ./.env:/opt/app/.env
       - ./public/uploads:/opt/app/public/uploads
     ports:
       - '1337:1337'
@@ -37,7 +43,7 @@ services:
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
-      - ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
+      #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
 
     ports:
       - '5432:5432'
