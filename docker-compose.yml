@@ -20,6 +20,7 @@ services:
       - ./.env:/opt/app/.env
     networks:
       - strapi
+      - dokploy-network
     depends_on:
       - strapiDB
       
@@ -53,6 +54,7 @@ services:
       - ADMINER_DEFAULT_SERVER=strapiDB
     networks:
       - strapi
+      - dokploy-network
     depends_on:
       - strapiDB
 
@@ -63,3 +65,5 @@ networks:
   strapi:
     name: Strapi
     driver: bridge
+  dokploy-network:
+    external: true
