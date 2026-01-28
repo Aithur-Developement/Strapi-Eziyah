@@ -20,17 +20,7 @@ services:
     user: "1000:1000"
     volumes:
       - ./.env:/opt/app/.env
-    ports:
-      - "1337"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.strapi-main.rule=Host(`strapi.eziyah.com.au`)"
-      - "traefik.http.routers.strapi-main.entrypoints=websecure"
-      - "traefik.http.routers.strapi-main.tls.certResolver=letsencrypt"
-      - "traefik.http.services.strapi-main.loadbalancer.server.port=1337"
-
     networks:
-      - dokploy-network
       - strapi
     depends_on:
       - strapiDB
@@ -71,8 +61,6 @@ volumes:
   strapi-data:
 
 networks:
-  dokploy-network:
-    external: true
   strapi:
     name: Strapi
     driver: bridge
