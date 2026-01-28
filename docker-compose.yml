@@ -20,6 +20,8 @@ services:
     volumes:
 
       - ./.env:/opt/app/.env
+    ports:
+      - "80:1337"
 
     labels:
       - "traefik.enable=true"
@@ -28,10 +30,6 @@ services:
       - "traefik.http.routers.strapi.tls=true"
       - "traefik.http.services.strapi.loadbalancer.server.port=1337"
 
-    environment:
-      HOST: 0.0.0.0
-      PORT: 1337
-      PUBLIC_URL: https://strapi.eziyah.com.au
     networks:
       - strapi
     depends_on:
