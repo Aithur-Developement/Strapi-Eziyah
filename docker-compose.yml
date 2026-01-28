@@ -1,7 +1,6 @@
 version: '3'
 services:
   strapi:
-    container_name: strapi
     build: .
     image: strapi:latest
     restart: unless-stopped
@@ -16,25 +15,28 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       NODE_ENV: ${NODE_ENV}
+      HOST: 0.0.0.0
+      PORT: 1337
     user: "1000:1000"
     volumes:
-
       - ./.env:/opt/app/.env
-
+    ports:
+      - "1337"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.strapi.rule=Host(`strapi.eziyah.com.au`)"
-      - "traefik.http.routers.strapi.entrypoints=websecure"
-      - "traefik.http.routers.strapi.tls=true"
-      - "traefik.http.services.strapi.loadbalancer.server.port=1337"
+      - "traefik.http.routers.strapi-main.rule=Host(`strapi.eziyah.com.au`)"
+      - "traefik.http.routers.strapi-main.entrypoints=websecure"
+      - "traefik.http.routers.strapi-main.tls.certResolver=letsencrypt"
+      - "traefik.http.services.strapi-main.loadbalancer.server.port=1337"
 
     networks:
+      - dokploy-network
       - strapi
     depends_on:
       - strapiDB
       
   strapiDB:
-    container_name: strapiDB
+
     platform: linux/amd64 #for platform error on Apple M1 chips
     restart: unless-stopped
     env_file: .env
@@ -53,7 +55,7 @@ services:
       - strapi
       
   strapiAdminer:
-    container_name: strapiAdminer
+    
     image: adminer
     restart: unless-stopped
     ports:
@@ -69,6 +71,8 @@ volumes:
   strapi-data:
 
 networks:
+  dokploy-network:
+    external: true
   strapi:
     name: Strapi
     driver: bridge
