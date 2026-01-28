@@ -20,8 +20,6 @@ services:
     volumes:
 
       - ./.env:/opt/app/.env
-    ports:
-      - "80:1337"
 
     labels:
       - "traefik.enable=true"
