@@ -15,8 +15,6 @@ services:
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       NODE_ENV: ${NODE_ENV}
-      HOST: 0.0.0.0
-      PORT: 1337
     user: "1000:1000"
     volumes:
       - ./.env:/opt/app/.env
